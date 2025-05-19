@@ -1,5 +1,7 @@
 # 🤖 Stable Diffusion 3.5 Image Generator (n8n + Telegram)
 
+![image](https://github.com/user-attachments/assets/cfbe2ccf-73ba-471a-aca1-23ec20906d6c)
+
 Бесплатная автоматизация генерации изображений с помощью **Stable Diffusion 3.5** от Hugging Face. Работает через Telegram-бота, принимает текстовые команды и возвращает готовые изображения прямо в чат.
 
 ---
@@ -63,7 +65,7 @@ API-ключ HuggingFace должен быть приватным. Не публ
 
 📷 Скриншоты
 
-![image](https://github.com/user-attachments/assets/cfbe2ccf-73ba-471a-aca1-23ec20906d6c)
+![image](https://github.com/user-attachments/assets/f30b8458-9def-46fe-b831-0a405db2d166)
 
 
 📄 Лицензия
