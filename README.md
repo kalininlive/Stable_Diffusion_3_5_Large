@@ -36,7 +36,7 @@
 1. **Склонируйте репозиторий**
 
 ```bash
-git clone [https://github.com/yourusername/stable-diffusion-n8n](https://github.com/kalininlive/Stable_Diffusion_3_5_Large)
+git clone https://github.com/yourusername/stable-diffusion-n8n
 ```
 
 Импортируйте файл Stable_Diffusion_3_5_Large.json в n8n
