@@ -35,6 +35,8 @@
 
 ```bash
 git clone https://github.com/yourusername/stable-diffusion-n8n
+```
+
 Импортируйте файл Stable_Diffusion_3_5_Large.json в n8n
 
 Настройте переменные:
@@ -68,5 +70,5 @@ MIT — используйте, адаптируйте, распространя
 
 ✍️ Автор
 Проект: AI Content Bot by WebSansay
-Сайт: https://websansay.ru
+Сайт: https://kalininlive.ru
 Telegram: @websansay
