@@ -34,7 +34,7 @@
 1. **Склонируйте репозиторий**
 
 ```bash
-git clone https://github.com/yourusername/stable-diffusion-n8n
+git clone [https://github.com/yourusername/stable-diffusion-n8n](https://github.com/kalininlive/Stable_Diffusion_3_5_Large)
 ```
 
 Импортируйте файл Stable_Diffusion_3_5_Large.json в n8n
@@ -56,14 +56,15 @@ git clone https://github.com/yourusername/stable-diffusion-n8n
 
 Пример:
 
-csharp
-Копировать
-Редактировать
 a futuristic city with flying cars at sunset, hyperrealistic
+
 🔐 Безопасность
 API-ключ HuggingFace должен быть приватным. Не публикуйте его в открытом доступе!
 
 📷 Скриншоты
+
+![image](https://github.com/user-attachments/assets/cfbe2ccf-73ba-471a-aca1-23ec20906d6c)
+
 
 📄 Лицензия
 MIT — используйте, адаптируйте, распространяйте.
