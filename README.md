@@ -72,6 +72,8 @@ API-ключ HuggingFace должен быть приватным. Не публ
 MIT — используйте, адаптируйте, распространяйте.
 
 ✍️ Автор
-Проект: AI Content Bot by WebSansay
+Проект: FREE image generator by WebSansay
+
 Сайт: https://kalininlive.ru
-Telegram: @websansay
+
+Telegram: [@websansay](https://t.me/websansay)
