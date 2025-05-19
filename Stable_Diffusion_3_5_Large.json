@@ -1,0 +1,327 @@
+{
+  "name": "Stable Diffusion 3.5 Large",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "Stable Diffusion 3.5 Large",
+        "formDescription": "Заполни необходимые поля для генерации изображений",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Описание изображения (Prompt)",
+              "placeholder": "Введите промпт на английском языке",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Выберите размер изображения",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "512x512 (Квадратное)"
+                  },
+                  {
+                    "option": "768x512 (Горизонтальное)"
+                  },
+                  {
+                    "option": "512x768 (Вертикальное)"
+                  },
+                  {
+                    "option": "1024x768 (Горизонтальное)"
+                  },
+                  {
+                    "option": "768x1024 (Вертикальное)"
+                  }
+                ]
+              },
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        -140,
+        -260
+      ],
+      "id": "e0ff9ebb-4bbf-427c-b9d7-f1e6ee16197d",
+      "name": "Prompt",
+      "webhookId": "66ee1be3-dda9-4613-9d2d-0c59fabbe13c",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c3a5507e-3f29-404c-820e-44833ebfc440",
+              "name": "prompt",
+              "value": "={{ $json['Описание изображения (Prompt)'] }}",
+              "type": "string"
+            },
+            {
+              "id": "a43b7326-76f7-4d23-a2ac-10e30dfd1daa",
+              "name": "size",
+              "value": "={{ $json['Выберите размер изображения'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        140,
+        0
+      ],
+      "id": "50a6cc9b-229d-4479-9fe0-3e66ee6e8a51",
+      "name": "Set"
+    },
+    {
+      "parameters": {
+        "jsCode": "const size = $json[\"size\"].split(\"x\");\nreturn {\n  json: {\n    prompt: $json[\"prompt\"],\n    width: parseInt(size[0]),\n    height: parseInt(size[1])\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        280,
+        0
+      ],
+      "id": "30129cb5-8fee-4668-aa93-a89ea16e9823",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-3.5-large",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer <ВАШ API КЛЮЧ>"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"inputs\": \"{{$json[\"prompt\"]}}\",\n  \"parameters\": {\n    \"height\": {{$json[\"height\"]}},\n    \"width\": {{$json[\"width\"]}}\n  }\n}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "text"
+            }
+          },
+          "timeout": 1800000
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        460,
+        0
+      ],
+      "id": "42b8943e-f9c7-46f0-a9b2-4247e0c69fc2",
+      "name": "Stable Diffusion 3.5 Large"
+    },
+    {
+      "parameters": {
+        "operation": "sendPhoto",
+        "chatId": "1694739756",
+        "binaryData": true,
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        840,
+        0
+      ],
+      "id": "be206d4d-c530-4af8-aa99-10f48dd7ddb0",
+      "name": "Telegram",
+      "webhookId": "34dafd75-ad71-4f74-b4eb-4f36f0df8308",
+      "credentials": {
+        "telegramApi": {
+          "id": "96N8kOGVb39HODmy",
+          "name": "🏖 БОТ ПОГОДЫ ☔️ |  @pogodatestwsbot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "toBinary",
+        "sourceProperty": "data",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        660,
+        0
+      ],
+      "id": "add09ced-3bb3-45d3-8f90-452ac0225da8",
+      "name": "Convert to File"
+    },
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -340,
+        20
+      ],
+      "id": "593be9b7-5255-487f-8d15-da89617801ab",
+      "name": "Telegram Trigger",
+      "webhookId": "9e76f923-71ae-4c36-9a16-87c69db71bc6",
+      "credentials": {
+        "telegramApi": {
+          "id": "96N8kOGVb39HODmy",
+          "name": "🏖 БОТ ПОГОДЫ ☔️ |  @pogodatestwsbot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "bf79c358-7f53-4f9d-890f-3ab46d86b592",
+              "name": "Описание изображения (Prompt)",
+              "value": "={{ $json.message.text }}",
+              "type": "string"
+            },
+            {
+              "id": "2cdc344f-34fd-4b5a-8a30-c7a569d86536",
+              "name": "Выберите размер изображения",
+              "value": "768x1024 (Вертикальное)",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -120,
+        20
+      ],
+      "id": "cdf4f015-2d47-427a-96a3-64cc5eeb1029",
+      "name": "Size"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Prompt": {
+      "main": [
+        [
+          {
+            "node": "Set",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Stable Diffusion 3.5 Large",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Stable Diffusion 3.5 Large": {
+      "main": [
+        [
+          {
+            "node": "Convert to File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File": {
+      "main": [
+        [
+          {
+            "node": "Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "Size",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Size": {
+      "main": [
+        [
+          {
+            "node": "Set",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "0fad0bcd-ed43-48f2-b799-340b7aeed148",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "99b810575850817c3f621d934bf994a902399f5c7ea5f1f5b518a88e45d44011"
+  },
+  "id": "BifdeZ8FOWKl7rZa",
+  "tags": [
+    {
+      "createdAt": "2025-05-19T09:18:49.735Z",
+      "updatedAt": "2025-05-19T09:18:49.735Z",
+      "id": "WikPF0Uv66NcEQfh",
+      "name": "GEN IMAGE"
+    }
+  ]
+}
